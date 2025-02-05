@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
@@ -9,5 +10,15 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
+  http = inject(HttpClient);
   title = 'client';
+  users : any
+
+  ngOnInit() {
+    this.http.get('https://localhost:5001/api/users').subscribe({
+      next: response => this.users = response,
+      error: error => console.error(error),
+      complete: () => console.log('complete')
+    })
+  }
 }
